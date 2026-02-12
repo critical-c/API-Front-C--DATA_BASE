@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<link rel="stylesheet" href="{{ url_for('static', filename='usuarios.css') }}">
+
+<div class="usuarios-wrapper">
+  <div class="formulario">
+    <h2>{{ "Crear Asociación Responsable-Entregable" if modo == "crear" else "Actualizar Asociación" }}</h2>
+
+    <form method="post"
+          action="{{ url_for('rutas_responsable_entregable.crear_responsable_entregable') if modo == 'crear' else url_for('rutas_responsable_entregable.actualizar_responsable_entregable') }}">
+
+      
+
+      <div class="campo">
+        <label>Responsable</label>
+        <select name="id_responsable" required>
+          <option value="">Seleccione un responsable</option>
+          {% for r in responsables %}
+            <option value="{{ r.id }}"
+              {% if asociacion  and asociacion .id_responsable == r.id %}selected{% endif %}>
+              {{ r.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Entregable</label>
+        <select name="id_entregable" required>
+          <option value="">Seleccione un entregable</option>
+          {% for e in entregables %}
+            <option value="{{ e.id }}"
+              {% if asociacion  and asociacion .id_entregable == e.id %}selected{% endif %}>
+              {{ e.titulo }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Fecha Asociación</label>
+        <input type="date" name="fecha_asociacion"
+               value="{{ asociacion.fecha_asociacion if asociacion else '' }}" required>
+      </div>
+
+      <button type="submit" class="btn-principal">
+        {{ "Crear" if modo == "crear" else "Actualizar" }}
+      </button>
+    </form>
+
+    <!-- Buscar solo por ID del responsable -->
+    <form method="post" action="{{ url_for('rutas_responsable_entregable.buscar_responsable_entregable') }}" class="buscar-form">
+      <input type="text" name="id_responsable_buscar" placeholder="Buscar por ID Responsable" required>
+      <button type="submit" class="btn-secundario">Buscar</button>
+    </form>
+
+  </div>
+
+  <div class="tabla">
+    <h2>Lista de Asociaciones Responsable-Entregable</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Responsable</th>
+          <th>Nombre Responsable</th>
+          <th>Tipo Responsable</th>
+          <th>ID Entregable</th>
+          <th>Codigo Entregable</th>
+          <th>Ttitulo Entregable</th>
+          <th>Fecha Asociacion</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in re_view %}
+        <tr>
+          <td>{{ a.id_responsable }}</td>
+          <td>{{ a.nombre_responsable }}</td>
+          <td>{{ a.tipo_responsable }}</td>
+          <td>{{ a.id_entregable }}</td>
+          <td>{{ a.codigo_entregable }}</td>
+          <td>{{ a.titulo_entregable }}</td>
+          <td>{{ a.fecha_asociacion }}</td>
+          <td>
+            <form method="post" action="{{ url_for('rutas_responsable_entregable.eliminar_responsable_entregable', id_responsable=a.id_responsable, id_entregable=a.id_entregable) }}">
+              <button type="submit" class="btn-eliminar">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
