@@ -1,80 +1,76 @@
 # 📊 Sistema de Gestión de Proyectos
 
-Aplicación web para la administración y seguimiento de proyectos, actividades, presupuestos, entregables y responsables.
+Aplicación web para la gestión y seguimiento de proyectos, actividades, presupuestos, entregables y responsables.
 
-El sistema está compuesto por:
+El sistema está dividido en:
 
-- Backend API REST en C# (.NET)
-- Frontend web
-- Base de datos relacional (bdproyecto)
+- Backend: API REST en C# (.NET)
+- Frontend: Python (Flask + Jinja)
+- Base de datos: bdproyecto
 
 Repositorio:
 https://github.com/critical-c/API-Front-C--DATA_BASE.git
 
 ---
 
-## 🚀 Funcionalidades
+# 🚀 Funcionalidades
 
-- Autenticación de usuarios (login)
+- Autenticación de usuarios
 - Gestión de proyectos
-- Control de actividades
-- Manejo de presupuestos
-- Seguimiento de ejecución presupuestal
-- Gestión de entregables
+- Gestión de actividades
+- Control de presupuestos
+- Ejecución presupuestal
+- Gestión de entregables y archivos
 - Asignación de responsables
-- Carga de archivos
-- Estados de proyectos y tareas
-- API REST desacoplada del frontend
+- Estados de proyectos
+- Arquitectura desacoplada (Frontend + API)
 
 ---
 
-## 🧱 Arquitectura
+# 🧱 Arquitectura
 
-Usuario (Navegador)
-      ↓
-Frontend
+Frontend (Flask)
       ↓
 API REST (.NET C#)
       ↓
 Base de Datos (bdproyecto)
 
-Arquitectura cliente-servidor desacoplada.
-
 ---
 
-## 🛠️ Tecnologías
+# 🛠️ Tecnologías
 
-### Backend
-- C# .NET / ASP.NET Web API
-- Entity Framework Core
-- JWT Authentication
-- Swagger
+## Backend
+- C#
+- ASP.NET Web API
+- Entity Framework
 
-### Frontend
-- HTML / CSS / JavaScript
-- (Plantillas o framework del proyecto)
+## Frontend
+- Python
+- Flask
+- Jinja2
+- venv
 
-### Base de datos
+## Base de datos
 - PostgreSQL / SQL Server / MySQL
 
 ---
 
-## 📂 Estructura del proyecto
+# 📂 Estructura del proyecto
 
 ```
 API-Front-C--DATA_BASE/
 │
-├── backend/        # API C#
-├── frontend/       # Cliente web
-├── database/       # Scripts SQL
-└── README.md
+├── API.NET C#/          # Backend .NET (API REST)
+├── front/               # Frontend Flask + Jinja
+├── bdproyecto.backup    # Respaldo de la base de datos
+└── .gitignore
 ```
 
 ---
 
-# ⚙️ Instalación
+# ⚙️ Instalación y ejecución
 
-## 1. Clonar repositorio
+## 1️⃣ Clonar repositorio
 
 ```
 git clone https://github.com/critical-c/API-Front-C--DATA_BASE.git
@@ -91,47 +87,47 @@ Nombre:
 bdproyecto
 ```
 
-Crear:
+Puedes restaurar usando el archivo:
 
 ```
-CREATE DATABASE bdproyecto;
+bdproyecto.backup
 ```
 
-Ejecutar scripts SQL del directorio `database/`.
-
----
-
-# 🔹 Backend (.NET)
-
-## Configurar conexión
-
-Editar:
-
-backend/appsettings.json
+Ejemplo PostgreSQL:
 
 ```
-"ConnectionStrings": {
-  "DefaultConnection": "Host=localhost;Database=bdproyecto;Username=postgres;Password=1234"
-}
+pg_restore -U postgres -d bdproyecto bdproyecto.backup
 ```
 
 ---
 
-## Ejecutar API
+# 🔹 Ejecutar Backend (.NET API)
+
+Entrar a la carpeta:
 
 ```
-cd backend
+cd "API.NET C#"
+```
+
+Restaurar dependencias:
+
+```
 dotnet restore
+```
+
+Ejecutar:
+
+```
 dotnet run
 ```
 
-Disponible en:
+La API estará en:
 
 ```
 http://localhost:5000
 ```
 
-Swagger:
+Swagger (si está activo):
 
 ```
 http://localhost:5000/swagger
@@ -139,22 +135,48 @@ http://localhost:5000/swagger
 
 ---
 
-# 🔹 Frontend
+# 🔹 Ejecutar Frontend (Flask)
 
-Instalar dependencias (según stack):
-
-Ejemplo:
+Entrar a la carpeta:
 
 ```
-cd frontend
-npm install
-npm start
+cd front
 ```
 
-o
+Crear entorno virtual:
+
+```
+python -m venv venv
+```
+
+Activar:
+
+### Windows
+```
+venv\Scripts\activate
+```
+
+### Linux/Mac
+```
+source venv/bin/activate
+```
+
+Instalar dependencias:
+
+```
+pip install -r requirements.txt
+```
+
+Ejecutar:
 
 ```
 python app.py
+```
+
+Disponible en:
+
+```
+http://localhost:3000
 ```
 
 ---
@@ -163,7 +185,7 @@ python app.py
 
 La API usa JWT.
 
-Header requerido:
+Cada petición protegida debe enviar:
 
 ```
 Authorization: Bearer <token>
@@ -171,88 +193,39 @@ Authorization: Bearer <token>
 
 ---
 
-# 📡 Endpoints principales (ejemplo)
+# 📡 Módulos principales
 
-## Usuarios
-```
-GET    /api/usuario
-POST   /api/usuario
-PUT    /api/usuario/{id}
-DELETE /api/usuario/{id}
-```
-
-## Proyectos
-```
-GET    /api/proyecto
-POST   /api/proyecto
-PUT    /api/proyecto/{id}
-DELETE /api/proyecto/{id}
-```
-
-## Actividades
-```
-GET    /api/actividad
-POST   /api/actividad
-PUT    /api/actividad/{id}
-DELETE /api/actividad/{id}
-```
-
-## Presupuesto
-```
-GET    /api/presupuesto
-GET    /api/ejecucion_presupuesto
-GET    /api/distribucion_presupuesto
-```
-
-## Entregables
-```
-GET    /api/entregable
-POST   /api/archivo_entregable
-```
+- Usuario
+- Proyecto
+- Actividad
+- Presupuesto
+- Ejecución presupuestal
+- Entregables
+- Archivos
+- Responsables
+- Estados
 
 ---
 
-# 🗄️ Modelo de Base de Datos
+# 🗄️ Tablas principales
 
-Tablas principales:
-
-- actividad
-- archivo
-- archivo_entregable
-- distribucion_presupuesto
-- ejecucion_presupuesto
-- entregable
-- estado
-- estado_proyecto
-- meta_estrategica
-- meta_proyecto
-- objetivo_estrategico
-- presupuesto
-- producto
-- producto_entregable
 - proyecto
-- proyecto_producto
+- actividad
+- presupuesto
+- ejecucion_presupuesto
+- distribucion_presupuesto
+- entregable
+- archivo
 - responsable
-- responsable_entregable
-- tipo_producto
-- tipo_proyecto
-- tipo_responsable
 - usuario
+- estado
+- producto
+- meta_estrategica
+- objetivo_estrategico
 - variable_estrategia
-
----
-
-# 🧪 Pruebas
-
-Backend:
-
-```
-dotnet test
-```
+- tipos y relaciones auxiliares
 
 
-
----
 
 # 📄 Licencia
 
