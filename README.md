@@ -1,51 +1,58 @@
-# 🧾 Sistema de Gestión de Facturas
+# 📊 Sistema de Gestión de Proyectos
 
-Aplicación web para la administración de facturas con autenticación de usuarios, API REST desarrollada en C# (.NET) y frontend renderizado con Flask + Jinja.
+Aplicación web para la administración y seguimiento de proyectos, actividades, presupuestos, entregables y responsables.
 
-Permite gestionar clientes, facturas, usuarios y reportes de forma segura, organizada y centralizada.
+El sistema está compuesto por:
+
+- Backend API REST en C# (.NET)
+- Frontend web
+- Base de datos relacional (bdproyecto)
+
+Repositorio:
+https://github.com/critical-c/API-Front-C--DATA_BASE.git
 
 ---
 
-## 🚀 Características
+## 🚀 Funcionalidades
 
-- Login y registro de usuarios
-- Autenticación con JWT
-- Gestión de roles
-- CRUD de clientes
-- CRUD de facturas
-- Detalle de productos por factura
-- API REST en C#
-- Frontend con Jinja templates
-- Base de datos relacional
-- Arquitectura desacoplada (Frontend + API + DB)
+- Autenticación de usuarios (login)
+- Gestión de proyectos
+- Control de actividades
+- Manejo de presupuestos
+- Seguimiento de ejecución presupuestal
+- Gestión de entregables
+- Asignación de responsables
+- Carga de archivos
+- Estados de proyectos y tareas
+- API REST desacoplada del frontend
 
 ---
 
 ## 🧱 Arquitectura
 
-Browser (Usuario)
+Usuario (Navegador)
       ↓
-Flask + Jinja (Frontend)
+Frontend
       ↓
-ASP.NET Web API (C# Backend)
+API REST (.NET C#)
       ↓
-Base de Datos
+Base de Datos (bdproyecto)
+
+Arquitectura cliente-servidor desacoplada.
 
 ---
 
 ## 🛠️ Tecnologías
 
 ### Backend
-- C# .NET (ASP.NET Web API)
+- C# .NET / ASP.NET Web API
 - Entity Framework Core
 - JWT Authentication
 - Swagger
 
 ### Frontend
-- Python
-- Flask
-- Jinja2
 - HTML / CSS / JavaScript
+- (Plantillas o framework del proyecto)
 
 ### Base de datos
 - PostgreSQL / SQL Server / MySQL
@@ -54,13 +61,14 @@ Base de Datos
 
 ## 📂 Estructura del proyecto
 
-facturacion/
+```
+API-Front-C--DATA_BASE/
 │
-├── backend/        # API REST .NET
-├── frontend/       # Flask + Jinja
+├── backend/        # API C#
+├── frontend/       # Cliente web
 ├── database/       # Scripts SQL
-├── docs/
 └── README.md
+```
 
 ---
 
@@ -68,26 +76,32 @@ facturacion/
 
 ## 1. Clonar repositorio
 
-git clone https://github.com/tu-usuario/facturacion.git
-cd facturacion
+```
+git clone https://github.com/critical-c/API-Front-C--DATA_BASE.git
+cd API-Front-C--DATA_BASE
+```
 
 ---
 
-# 🗄️ Configurar Base de Datos
+# 🗄️ Base de Datos
 
-Crear base de datos:
+Nombre:
 
-CREATE DATABASE facturacion;
+```
+bdproyecto
+```
 
-Ejecutar scripts:
+Crear:
 
-psql -U postgres -f database/schema.sql
+```
+CREATE DATABASE bdproyecto;
+```
 
-(o usa tu gestor preferido)
+Ejecutar scripts SQL del directorio `database/`.
 
 ---
 
-# 🔹 Backend (.NET API)
+# 🔹 Backend (.NET)
 
 ## Configurar conexión
 
@@ -95,146 +109,148 @@ Editar:
 
 backend/appsettings.json
 
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=facturacion;Username=postgres;Password=1234"
-  },
-  "Jwt": {
-    "Key": "super_secret_key"
-  }
+```
+"ConnectionStrings": {
+  "DefaultConnection": "Host=localhost;Database=bdproyecto;Username=postgres;Password=1234"
 }
-
-## Instalar dependencias
-
-cd backend
-dotnet restore
-
-## Ejecutar servidor
-
-dotnet run
-
-API disponible en:
-http://localhost:5000
-
-Swagger:
-http://localhost:5000/swagger
+```
 
 ---
 
-# 🔹 Frontend (Flask + Jinja)
+## Ejecutar API
 
-## Instalar dependencias
-
-cd frontend
-pip install -r requirements.txt
-
-## Ejecutar aplicación
-
-python app.py
+```
+cd backend
+dotnet restore
+dotnet run
+```
 
 Disponible en:
-http://localhost:3000
+
+```
+http://localhost:5000
+```
+
+Swagger:
+
+```
+http://localhost:5000/swagger
+```
+
+---
+
+# 🔹 Frontend
+
+Instalar dependencias (según stack):
+
+Ejemplo:
+
+```
+cd frontend
+npm install
+npm start
+```
+
+o
+
+```
+python app.py
+```
 
 ---
 
 # 🔐 Autenticación
 
-Se utiliza JWT.
-
-Flujo:
-1. Usuario inicia sesión
-2. API devuelve token
-3. Frontend guarda token en sesión/cookies
-4. Token se envía en cada request
+La API usa JWT.
 
 Header requerido:
 
+```
 Authorization: Bearer <token>
+```
 
 ---
 
-# 📡 Endpoints principales
+# 📡 Endpoints principales (ejemplo)
 
-## Auth
-POST   /api/auth/login
-POST   /api/auth/register
-GET    /api/auth/profile
+## Usuarios
+```
+GET    /api/usuario
+POST   /api/usuario
+PUT    /api/usuario/{id}
+DELETE /api/usuario/{id}
+```
 
-## Clientes
-GET    /api/clients
-POST   /api/clients
-PUT    /api/clients/{id}
-DELETE /api/clients/{id}
+## Proyectos
+```
+GET    /api/proyecto
+POST   /api/proyecto
+PUT    /api/proyecto/{id}
+DELETE /api/proyecto/{id}
+```
 
-## Facturas
-GET    /api/invoices
-POST   /api/invoices
-GET    /api/invoices/{id}
-PUT    /api/invoices/{id}
-DELETE /api/invoices/{id}
+## Actividades
+```
+GET    /api/actividad
+POST   /api/actividad
+PUT    /api/actividad/{id}
+DELETE /api/actividad/{id}
+```
+
+## Presupuesto
+```
+GET    /api/presupuesto
+GET    /api/ejecucion_presupuesto
+GET    /api/distribucion_presupuesto
+```
+
+## Entregables
+```
+GET    /api/entregable
+POST   /api/archivo_entregable
+```
 
 ---
 
 # 🗄️ Modelo de Base de Datos
 
-## users
-- id
-- name
-- email
-- password_hash
-- role
+Tablas principales:
 
-## clients
-- id
-- name
-- document
-- phone
-
-## invoices
-- id
-- client_id
-- user_id
-- date
-- total
-
-## invoice_items
-- id
-- invoice_id
-- description
-- price
-- quantity
+- actividad
+- archivo
+- archivo_entregable
+- distribucion_presupuesto
+- ejecucion_presupuesto
+- entregable
+- estado
+- estado_proyecto
+- meta_estrategica
+- meta_proyecto
+- objetivo_estrategico
+- presupuesto
+- producto
+- producto_entregable
+- proyecto
+- proyecto_producto
+- responsable
+- responsable_entregable
+- tipo_producto
+- tipo_proyecto
+- tipo_responsable
+- usuario
+- variable_estrategia
 
 ---
 
 # 🧪 Pruebas
 
 Backend:
+
+```
 dotnet test
+```
 
-Frontend:
-pytest
 
----
-
-# 🚀 Despliegue
-
-Opciones:
-- Backend → Azure / Render / Railway
-- Frontend → VPS / Render
-- DB → Supabase / Neon / Azure SQL
-
-O con Docker:
-
-docker-compose up --build
-
----
-
-# 🤝 Contribuir
-
-1. Fork
-2. Crear rama
-3. Commit
-4. Pull Request
 
 ---
 
